@@ -1,0 +1,117 @@
+{
+  "skill_name": "deep-research",
+  "evals": [
+    {
+      "id": 1,
+      "name": "ai-agent-frameworks-research",
+      "prompt": "I need to understand the AI agent frameworks landscape for 2024. My team is considering building an agent system and we want to know what frameworks are available, their tradeoffs, and which might fit a mid-sized tech company with Python expertise. Please research this thoroughly using the deep-research skill.",
+      "expected_output": "A comprehensive report covering: 1) Initial landscape of major frameworks (LangChain, LlamaIndex, AutoGen, etc.), 2) Breadth exploration of capabilities, ecosystems, and use cases, 3) Deep dive into 2-3 top candidates with technical details, 4) Final recommendation with rationale",
+      "files": [],
+      "assertions": [
+        {
+          "description": "Report follows 3-phase structure",
+          "type": "structure_check"
+        },
+        {
+          "description": "Multiple framework candidates covered",
+          "type": "content_check"
+        },
+        {
+          "description": "Technical comparison included",
+          "type": "content_check"
+        },
+        {
+          "description": "Specific recommendation provided",
+          "type": "content_check"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "serverless-deployment-options",
+      "prompt": "We're migrating our Node.js microservices from AWS Lambda to either Cloudflare Workers or Vercel Edge Functions. Can you do a deep research comparison? We care about cold start latency, pricing at scale, ecosystem maturity, and debugging experience.",
+      "expected_output": "Research output with: 1) Initial discovery of both platforms and their positioning, 2) Breadth exploration across the 4 concern areas, 3) Deep dive into performance benchmarks and real-world case studies, 4) Decision matrix and final recommendation",
+      "files": [],
+      "assertions": [
+        {
+          "description": "Both platforms thoroughly researched",
+          "type": "content_check"
+        },
+        {
+          "description": "All 4 user concerns addressed",
+          "type": "content_check"
+        },
+        {
+          "description": "Benchmark data included",
+          "type": "content_check"
+        },
+        {
+          "description": "Clear recommendation with tradeoffs",
+          "type": "content_check"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "vector-database-comparison",
+      "prompt": "I need to choose a vector database for our RAG application. We're storing about 10M document chunks, need hybrid search (dense + sparse), and care about self-hosting vs managed options. Research Pinecone, Weaviate, Qdrant, and pgvector thoroughly.",
+      "expected_output": "Comprehensive comparison with: 1) Initial overview of vector DB landscape, 2) Breadth exploration of each option's architecture and features, 3) Deep dive into hybrid search capabilities and performance at 10M scale, 4) Deployment recommendations",
+      "files": [],
+      "assertions": [
+        {
+          "description": "All 4 databases covered",
+          "type": "content_check"
+        },
+        {
+          "description": "Hybrid search capabilities analyzed",
+          "type": "content_check"
+        },
+        {
+          "description": "Scale considerations (10M) addressed",
+          "type": "content_check"
+        },
+        {
+          "description": "Self-hosting vs managed tradeoffs covered",
+          "type": "content_check"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "firecrawl-raw-content-verification",
+      "prompt": "Research the latest trends in sustainable architecture and green building practices for 2026. I need authoritative sources and detailed information that I can reference later. Please use the deep-research skill and make sure to preserve all raw content.",
+      "expected_output": "Research output demonstrating: 1) Phase 1 with 3-5 scraped sources in raw-content/, 2) Phase 2 with 5-10 scraped sources with Tavily scores > 0.75, 3) Phase 3 with comprehensive authoritative source scraping, 4) All syntheses include source references to raw-content files",
+      "files": [],
+      "assertions": [
+        {
+          "description": "Phase 1 has raw-content/ directory with 3-5 scraped files",
+          "type": "structure_check"
+        },
+        {
+          "description": "Phase 2 has raw-content/ directory with 5-10 scraped files",
+          "type": "structure_check"
+        },
+        {
+          "description": "Phase 3 has raw-content/ directory with 5-15 scraped files",
+          "type": "structure_check"
+        },
+        {
+          "description": "All scraped files have metadata headers (Source, Date, Score)",
+          "type": "content_check"
+        },
+        {
+          "description": "All synthesis.md files reference raw-content files",
+          "type": "content_check"
+        },
+        {
+          "description": "Final report includes appendix listing all raw content files",
+          "type": "content_check"
+        },
+        {
+          "description": "Firecrawl commands used with -o flag for file output",
+          "type": "tool_usage_check"
+        }
+      ]
+    }
+  ]
+}
