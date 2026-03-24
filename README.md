@@ -17,6 +17,8 @@ This skill provides a structured 3-phase research methodology:
 4. **Quality gates MUST be met** - sufficient high-quality sources required before synthesis
 5. **Source attribution is mandatory** in every synthesis
 
+**🔬 Autoresearch Optimized:** All quality evaluation parameters (risk thresholds, scoring weights, content requirements) have been systematically optimized through autoresearch iterations for maximum research accuracy and minimal false positives.
+
 ## Installation
 
 ### Method 1: Install via npx (Recommended - when published)

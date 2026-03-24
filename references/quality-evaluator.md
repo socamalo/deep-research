@@ -249,8 +249,8 @@ density_score = (unique_content_words / total_words) × 10
 
 | Rating | Score Range | Action | Threshold for Synthesis |
 |--------|-------------|--------|------------------------|
-| **high** | >= 7.5 | Keep and prioritize | Required: min 3 per phase |
-| **medium** | 5.0 - 7.4 | Keep with caveats | Acceptable: counts toward total |
+| **high** | >= 7.7 | Keep and prioritize | Required: min 3 per phase |
+| **medium** | 5.0 - 7.6 | Keep with caveats | Acceptable: counts toward total |
 | **low** | 3.0 - 4.9 | Discard | Exclude from synthesis |
 | **poor** | < 3.0 | Discard immediately | Exclude from synthesis |
 | **failed** | Validity fail | Discard + retry if critical | Exclude from synthesis |
@@ -318,11 +318,11 @@ Apply validation framework and output JSON assessment with quality rating.
 
 ```
 Weighted Score (Post-Scrape only) =
-  (Relevance × 0.30) +
-  (Authority × 0.20) +
+  (Relevance × 0.25) +
+  (Authority × 0.32) +
   (Information Density × 0.25) +
-  (Timeliness × 0.15) +
-  (Uniqueness × 0.10)
+  (Timeliness × 0.10) +
+  (Uniqueness × 0.08)
 ```
 
 Validity is a binary gate - must pass before scoring applies.
@@ -345,7 +345,7 @@ These parameters can be adjusted to tune evaluation sensitivity:
 
 | Parameter | Default | Range | Effect |
 |-----------|---------|-------|--------|
-| `QUALITY_HIGH_THRESHOLD` | 7.5 | 0-10 | Score for "high" rating |
+| `QUALITY_HIGH_THRESHOLD` | 7.7 | 0-10 | Score for "high" rating |
 | `QUALITY_MEDIUM_THRESHOLD` | 5.0 | 0-10 | Score for "medium" rating |
 | `QUALITY_LOW_THRESHOLD` | 3.0 | 0-10 | Score for "low" rating |
 | `MIN_WORD_COUNT` | 300 | 0-10000 | Minimum words for valid content |
@@ -356,11 +356,11 @@ These parameters can be adjusted to tune evaluation sensitivity:
 
 | Parameter | Default | Range | Effect |
 |-----------|---------|-------|--------|
-| `WEIGHT_RELEVANCE` | 0.30 | 0.0-1.0 | Relevance dimension weight |
-| `WEIGHT_AUTHORITY` | 0.20 | 0.0-1.0 | Authority dimension weight |
+| `WEIGHT_RELEVANCE` | 0.25 | 0.0-1.0 | Relevance dimension weight |
+| `WEIGHT_AUTHORITY` | 0.32 | 0.0-1.0 | Authority dimension weight |
 | `WEIGHT_DENSITY` | 0.25 | 0.0-1.0 | Information density weight |
-| `WEIGHT_TIMELINESS` | 0.15 | 0.0-1.0 | Timeliness dimension weight |
-| `WEIGHT_UNIQUENESS` | 0.10 | 0.0-1.0 | Uniqueness dimension weight |
+| `WEIGHT_TIMELINESS` | 0.10 | 0.0-1.0 | Timeliness dimension weight |
+| `WEIGHT_UNIQUENESS` | 0.08 | 0.0-1.0 | Uniqueness dimension weight |
 
 ### Iteration Guidelines
 
