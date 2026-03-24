@@ -1,5 +1,9 @@
 # Deep Research Skill
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-purple)](https://claude.ai/)
+
 A skill for conducting multi-phase deep research using Tavily CLI for search and **Firecrawl CLI (REQUIRED)** for content scraping, with **content quality validation (REQUIRED)** and human judgment at each step.
 
 ## Overview
