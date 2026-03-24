@@ -363,9 +363,9 @@ Based on autoresearch optimization experiments, use these parameters for best re
 
 | Phase | Queries | Max Results | Min Quality | Scrape Top-K |
 |-------|---------|-------------|-------------|--------------|
-| Phase 1 (Initial) | **7** | **15** | **0.52** | **8** |
-| Phase 2 (Breadth) | **9** | **12** | **0.62** | **7** |
-| Phase 3 (Depth) | **8** | **10** | **0.67** | **6** |
+| Phase 1 (Initial) | **7** | **15** | **0.50** | **8** |
+| Phase 2 (Breadth) | **9** | **12** | **0.60** | **7** |
+| Phase 3 (Depth) | **8** | **10** | **0.65** | **6** |
 
 ### Strategy Parameters
 - **max_total_sources**: 50 (increased from 20)
@@ -376,10 +376,10 @@ Based on autoresearch optimization experiments, use these parameters for best re
 - **time_range**: year
 
 ### Quality Scoring Weights
-- **weight_authority**: 0.45 (prioritize authoritative sources)
-- **weight_coverage**: 0.15
-- **weight_density**: 0.25
-- **weight_freshness**: 0.15
+- **weight_authority**: 0.50 (prioritize authoritative sources)
+- **weight_coverage**: 0.10
+- **weight_density**: 0.30
+- **weight_freshness**: 0.10
 
 **Key Insight**: Increasing query count (7/9/8 vs 3/5/4) and max_total_sources (50 vs 20) improves research quality more than raising quality thresholds.
 
