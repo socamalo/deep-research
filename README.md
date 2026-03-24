@@ -19,6 +19,8 @@ This skill provides a structured 3-phase research methodology:
 
 **🔬 Autoresearch Optimized:** All quality evaluation parameters (risk thresholds, scoring weights, content requirements) have been systematically optimized through autoresearch iterations for maximum research accuracy and minimal false positives.
 
+**🐍 Includes Python Package:** This skill bundles a custom Tavily CLI (`tavaliy-cli/`) - a Python CLI tool with API key rotation, multi-format output, and comprehensive test suite. Install with `uv tool install`.
+
 ## Installation
 
 ### Method 1: Install via npx (Recommended - when published)
@@ -77,46 +79,112 @@ npm install -g firecrawl
 **Configure Firecrawl API Key:**
 
 ```bash
-# Option 1: Environment variable
 export FIRECRAWL_API_KEY="your-firecrawl-api-key"
-
-# Option 2: .env file in your project root
-echo "FIRECRAWL_API_KEY=your-firecrawl-api-key" > .env
 ```
 
 Get your API keys:
 - Tavily: https://tavily.com
 - Firecrawl: https://firecrawl.dev
 
-## Content Quality Validation (REQUIRED)
+## Source Evaluation (Pre-Scraping)
 
-**Every scraped file MUST be validated using the Quality Validator Agent.**
+**BEFORE scraping, use Quality Evaluator (Pre-Scrape Mode) to filter Tavily results.**
 
-### Why Validation Matters
+### Why Pre-Evaluation Matters
+
+- Tavily Score ≠ content quality (many 1.00 scores lead to 404 pages)
+- Portal sites have high link rot
+- Some sites block direct article access but allow homepage + crawl
+- Pre-filtering saves time and reduces failed scrapes
+
+### Source Evaluation Process
+
+First, read `references/quality-evaluator.md` (Mode 1: Pre-Scrape Assessment) for detailed evaluation guidelines.
+
+Then invoke:
+
+```markdown
+Evaluate sources (Pre-Scrape Mode):
+- Research topic: {topic}
+- Results file: ./01-initial-discovery/raw-results/search-01.json
+
+Use skill: quality-evaluator
+
+Output: JSON with recommended/excluded URLs and risk assessment
+```
+
+### Domain Risk Awareness
+
+**High Risk (frequent 404/invalid URLs):**
+- News portals: sina.com.cn, sohu.com, 163.com, ifeng.com
+- Regional news subdomains
+- Temporary event pages
+
+**Strategy for high-risk domains:**
+1. Try direct scrape first (quick fail check)
+2. If 404 → extract homepage URL
+3. Use `firecrawl map "https://homepage.com"` to discover valid content
+4. Or skip and find alternative sources
+
+---
+
+## Content Quality Validation (Post-Scraping)
+
+**Every scraped file MUST be validated using Quality Evaluator (Post-Scrape Mode) before entering synthesis.**
+
+### Why Deep Validation is Required
 
 Without validation, your research pipeline may include:
-- 404/403 error pages
-- Nginx/Apache error messages
-- CAPTCHA or login walls
-- Thin content with no substance
-- Irrelevant pages
+- 404/403 error pages (even 5-line nginx errors)
+- CAPTCHA/login walls
+- Marketing pages with high word count but low substance
+- Thin content with mostly navigation/ads
+
+**Simple word-counting FAILS:**
+- A 404 error page can have 20+ lines of nginx HTML
+- A marketing page can have 400+ lines of specs without real insight
 
 ### Quality Ratings
 
 | Rating | Criteria | Action |
 |--------|----------|--------|
-| **high** | relevance >= 8, >800 words | Keep and prioritize |
-| **medium** | relevance 5-7, >400 words | Keep for synthesis |
-| **low** | relevance < 5, <400 words | Discard |
-| **failed** | 404/error page/CAPTCHA | Discard + retry |
+| **high** | Weighted score >= 7.7, passed validity | Keep and prioritize |
+| **medium** | Weighted score 5.0-7.6, passed validity | Keep for synthesis |
+| **low** | Weighted score 3.0-4.9, passed validity | Discard |
+| **poor** | Weighted score < 3.0, passed validity | Discard immediately |
+| **failed** | Failed validity (404/error/CAPTCHA) | Discard + retry |
 
-### Quality Gates (Per Phase)
+### Quality Gate Thresholds (Autoresearch Optimized)
 
-| Phase | Minimum | Target | Ideal |
-|-------|---------|--------|-------|
-| **Phase 1** | 5 sources | 8 sources | 10+ sources |
-| **Phase 2** | 8 sources | 12 sources | 15+ sources |
-| **Phase 3** | 10 sources | 15 sources | 20+ sources |
+Based on systematic optimization (targeting 50 total sources with authority-weighted scoring):
+
+**Phase 1 (Initial Discovery):**
+- **Queries**: 7 broad queries
+- **Max results**: 15 per query
+- **Min quality score**: 0.52
+- Minimum: 5 high/medium quality sources
+- Target: 8 sources
+- Ideal: 10+ diverse sources
+
+**Phase 2 (Breadth Expansion):**
+- **Queries**: 9 targeted queries
+- **Max results**: 12 per query
+- **Min quality score**: 0.62
+- Minimum: 8 high/medium quality sources
+- Target: 12 sources
+- Ideal: 15+ sources
+
+**Phase 3 (Depth Exploration):**
+- **Queries**: 8 deep queries
+- **Max results**: 10 per query
+- **Min quality score**: 0.67
+- Minimum: 10 high/medium quality sources
+- Target: 15+ sources
+- Ideal: 20+ authoritative sources
+
+**Overall Strategy:**
+- **max_total_sources**: 50 (across all phases)
+- **Scoring priority**: Authority (0.32) > Density (0.25) > Relevance (0.25) > Timeliness (0.10) > Uniqueness (0.08)
 
 **Rule: Do NOT proceed to synthesis until quality gate is met.**
 
@@ -124,9 +192,9 @@ Without validation, your research pipeline may include:
 
 1. Scrape URL with Firecrawl
 2. Read scraped file
-3. Invoke Quality Validator Agent
+3. Invoke Quality Evaluator (Post-Scrape Mode)
 4. Get quality rating
-5. Keep high/medium, discard low/failed
+5. Keep high/medium, discard low/poor/failed
 6. Retry with new searches if quality gate not met
 
 ## Firecrawl Usage (REQUIRED)
@@ -186,7 +254,7 @@ The skill guides Claude through structured research:
 │  - Claude designs 3-5 broad Tavily searches                       │
 │  - Identifies 5-8 high-value URLs (score > 0.75)                  │
 │  - Scrapes each URL with Firecrawl                                │
-│  - Quality Validator Agent evaluates each scrape                  │
+│  - Quality Evaluator evaluates each scrape                  │
 │  - Quality Gate: Minimum 5 high/medium sources                    │
 │  - If not met: retry with new searches                            │
 │  - Reviews validated content, synthesizes findings                │
@@ -203,7 +271,7 @@ The skill guides Claude through structured research:
 │  - Claude designs targeted searches per angle                     │
 │  - Identifies 8-12 high-value sources                             │
 │  - Scrapes all sources with Firecrawl                             │
-│  - Quality Validator Agent evaluates each scrape                  │
+│  - Quality Evaluator evaluates each scrape                  │
 │  - Quality Gate: Minimum 8 high/medium sources                    │
 │  - If not met: retry with new searches                            │
 │  - Identifies 3-5 core domains                                    │
@@ -220,7 +288,7 @@ The skill guides Claude through structured research:
 │  - Targeted searches on priority domains                          │
 │  - Identifies 10-15 authoritative sources                         │
 │  - Comprehensive Firecrawl scraping                               │
-│  - Quality Validator Agent evaluates each scrape                  │
+│  - Quality Evaluator evaluates each scrape                  │
 │  - Quality Gate: Minimum 10 high/medium sources                   │
 │  - If not met: retry with new searches                            │
 │  - Domain synthesis with cross-domain analysis                    │
@@ -479,7 +547,7 @@ Every synthesis.md includes source references:
 |---------|-----|
 | **Only using Tavily, not Firecrawl** | **MUST scrape high-value URLs with Firecrawl after every search phase** |
 | **Not saving raw content** | **ALWAYS save scraped markdown to `raw-content/` directory** |
-| **Skipping content validation** | **ALWAYS validate with Quality Validator Agent after scraping** |
+| **Skipping content validation** | **ALWAYS validate with Quality Evaluator after scraping** |
 | **Not meeting quality gates** | **Loop with new searches until minimum sources achieved** |
 | **Immediate synthesis without review** | **Review scraped AND validated content before synthesizing** |
 | **Losing source attribution** | **Reference specific scraped files in synthesis.md** |
