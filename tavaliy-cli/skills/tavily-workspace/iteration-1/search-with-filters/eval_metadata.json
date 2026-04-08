@@ -1,0 +1,19 @@
+{
+  "eval_id": 2,
+  "eval_name": "search-with-filters",
+  "prompt": "Search for 'Python async programming tutorials' but only from realpython.com and docs.python.org, and only from the last 30 days",
+  "assertions": [
+    {
+      "name": "uses_domain_filter",
+      "description": "Response should use --domains flag",
+      "type": "contains",
+      "target": "--domains"
+    },
+    {
+      "name": "uses_days_filter",
+      "description": "Response should use --days flag",
+      "type": "contains",
+      "target": "--days"
+    }
+  ]
+}

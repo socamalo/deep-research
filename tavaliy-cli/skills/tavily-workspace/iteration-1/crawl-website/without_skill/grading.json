@@ -1,0 +1,19 @@
+{
+  "eval_name": "crawl-website",
+  "run_type": "without_skill",
+  "total_assertions": 2,
+  "passed_assertions": 0,
+  "failed_assertions": 2,
+  "expectations": [
+    {
+      "text": "Uses tavily crawl command",
+      "passed": false,
+      "evidence": "Did not use tavily - baseline has no crawling capability"
+    },
+    {
+      "text": "Uses limit flag",
+      "passed": false,
+      "evidence": "No crawling performed - baseline lacks web crawling tools"
+    }
+  ]
+}

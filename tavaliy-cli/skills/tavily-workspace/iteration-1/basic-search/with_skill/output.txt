@@ -1,0 +1,86 @@
+Command Used:
+tavily search "OpenAI GPT-5 latest news" --output json
+
+Results:
+{
+  "status": "success",
+  "results": [
+    {
+      "url": "https://abcnews.com/Business/openai-releases-gpt-5-latest-model-fueling-chatgpt/story?id=124449946",
+      "title": "OpenAI releases GPT-5, the latest model fueling ChatGPT - ABC News",
+      "content": "The product will be made immediately available to users, including customers who use the company's cost-free options, OpenAI said.",
+      "score": 0.99939764,
+      "raw_content": null
+    },
+    {
+      "url": "https://news.ycombinator.com/item?id=44821869",
+      "title": "OpenAI's new GPT-5 models announced early by GitHub",
+      "content": "OpenAI's new GPT-5 models announced early by GitHub | Hacker News. > It handles complex coding tasks with minimal prompting... I find it interesting how",
+      "score": 0.998259,
+      "raw_content": null
+    },
+    {
+      "url": "https://openai.com/gpt-5/",
+      "title": "GPT-5 is here - OpenAI",
+      "content": "GPT‑5 is smarter across the board, providing more useful responses across math, science, finance, law, and more. It's like having a team of experts on call",
+      "score": 0.9974291,
+      "raw_content": null
+    },
+    {
+      "url": "https://www.axios.com/2025/08/07/gpt5-openai-chatgpt-release",
+      "title": "ChatGPT gets boost with OpenAI's big GPT-5 update launch - Axios",
+      "content": "OpenAI's long-awaited GPT-5 — a major update to the technology underlying ChatGPT — is a faster, more-capable large language model that CEO",
+      "score": 0.99740905,
+      "raw_content": null
+    },
+    {
+      "url": "https://openai.com/index/introducing-gpt-5/",
+      "title": "Introducing GPT-5 - OpenAI",
+      "content": "With GPT‑5 pro's extended reasoning, the model also sets a new SOTA on GPQA, scoring 88.4% without tools. AIME 2025 Competition math.",
+      "score": 0.99648935,
+      "raw_content": null
+    },
+    {
+      "url": "https://mashable.com/article/gpt5-coming",
+      "title": "OpenAI's GPT-5: Why it's not that much better than GPT-4 | Mashable",
+      "content": "OpenAI is set to release its much-hyped new LLM, GPT-5. But reports say the company has struggled to find major improvements.",
+      "score": 0.99632156,
+      "raw_content": null
+    },
+    {
+      "url": "https://www.wired.com/story/openai-gpt-5-backlash-sam-altman/",
+      "title": "OpenAI Scrambles to Update GPT-5 After Users Revolt - WIRED",
+      "content": "A new feature designed to seamlessly switch between models depending on the complexity of the query had broken on Thursday, Altman said, "and",
+      "score": 0.9957021,
+      "raw_content": null
+    },
+    {
+      "url": "https://www.bbc.com/news/articles/cy5prvgw0r1o",
+      "title": "OpenAI claims new GPT-5 model boosts ChatGPT to 'PhD level' - BBC",
+      "content": "OpenAI has highlighted GPT-5's ability to create software in its entirety and demonstrate better reasoning capabilities - with answers that show",
+      "score": 0.99482024,
+      "raw_content": null
+    },
+    {
+      "url": "https://openai.com/index/introducing-gpt-5-4/",
+      "title": "Introducing GPT-5.4 - OpenAI",
+      "content": "GPT‑5.2 Thinking will remain available for three months for paid users in the model picker under the Legacy Models section, after which it will",
+      "score": 0.9921233,
+      "raw_content": null
+    },
+    {
+      "url": "https://openai.com/news/",
+      "title": "OpenAI News",
+      "content": "New ways to learn math and science in ChatGPT. Product Mar 10, 2026 ... GPT-5 · Codex. Safety. Safety Approach · Security & Privacy · Trust & Transparency.",
+      "score": 0.99135584,
+      "raw_content": null
+    }
+  ],
+  "query": "OpenAI GPT-5 latest news",
+  "response_time": 1.26,
+  "answer": "OpenAI released GPT-5, enhancing capabilities in various fields. It's now available to users, including those on free plans. GPT-5 offers improved reasoning and performance.",
+  "images": [],
+  "request_id": "c7d55b67-4c14-4922-9c38-f621e2e0645a",
+  "usage": null,
+  "auto_parameters": null
+}

@@ -1,0 +1,13 @@
+{
+  "eval_id": 8,
+  "eval_name": "view-config",
+  "prompt": "Show my Tavily configuration",
+  "assertions": [
+    {
+      "name": "uses_config_command",
+      "description": "Response should use tavily config command",
+      "type": "contains",
+      "target": "tavily config"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "eval_name": "view-config",
+  "run_type": "without_skill",
+  "total_assertions": 1,
+  "passed_assertions": 0,
+  "failed_assertions": 1,
+  "expectations": [
+    {
+      "text": "Uses tavily config command",
+      "passed": false,
+      "evidence": "Did not use tavily - baseline cannot check tavily-specific config"
+    }
+  ]
+}

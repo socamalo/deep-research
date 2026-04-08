@@ -1,0 +1,14 @@
+Command Used:
+tavily extract https://en.wikipedia.org/wiki/Artificial_intelligence --output json
+
+Results:
+{
+  "status": "success",
+  "results": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "content": "Artificial intelligence (AI) is the intelligence of machines or software, as opposed to the intelligence of humans or animals. It is a field of study in computer science that develops and studies intelligent machines. Such machines may be called AIs. AI technology is widely used throughout industry, government, and science.",
+      "raw_content": null
+    }
+  ]
+}

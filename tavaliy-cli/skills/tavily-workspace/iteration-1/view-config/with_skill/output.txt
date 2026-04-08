@@ -1,0 +1,11 @@
+Command: tavily config
+
+Output:
+/Users/d_d/.local/bin/tavily
+            Configuration
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Setting         ┃ Value           ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ API Keys Loaded │ 6               │
+│ Current Key     │ tvly-dev...Pwen │
+└─────────────────┴─────────────────┘

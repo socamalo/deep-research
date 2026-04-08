@@ -1,0 +1,13 @@
+{
+  "eval_id": 6,
+  "eval_name": "map-website",
+  "prompt": "Map the structure of https://docs.python.org and limit to 20 URLs",
+  "assertions": [
+    {
+      "name": "uses_map_command",
+      "description": "Response should use tavily map command",
+      "type": "contains",
+      "target": "tavily map"
+    }
+  ]
+}

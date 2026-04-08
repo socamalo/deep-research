@@ -1,0 +1,27 @@
+=== Tavily Configuration (Without Skill) ===
+
+Commands Used:
+1. which tavily
+2. tavily config
+
+Results:
+
+---
+Command: which tavily
+Output: /Users/d_d/.local/bin/tavily
+---
+
+Command: tavily config
+Output:
+            Configuration
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Setting         ┃ Value           ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ API Keys Loaded │ 6               │
+│ Current Key     │ tvly-dev...Pwen │
+└─────────────────┴─────────────────┘
+
+=== Summary ===
+- Tavily CLI is installed at: /Users/d_d/.local/bin/tavily
+- API Keys Loaded: 6
+- Current Key: tvly-dev...Pwen (masked)

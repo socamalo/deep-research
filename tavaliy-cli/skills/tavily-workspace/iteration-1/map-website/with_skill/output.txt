@@ -1,0 +1,26 @@
+Command: tavily map https://docs.python.org --limit 20 --output json
+
+Results:
+{
+  "status": "success",
+  "results": [
+    "https://docs.python.org/",
+    "https://docs.python.org/license.html",
+    "https://docs.python.org/py-modindex.html",
+    "https://docs.python.org/copyright.html",
+    "https://docs.python.org/bugs.html",
+    "https://docs.python.org/search.html",
+    "https://docs.python.org/about.html",
+    "https://docs.python.org/genindex.html",
+    "https://docs.python.org/contents.html",
+    "https://docs.python.org/3/index.html",
+    "https://www.python.org/",
+    "https://devguide.python.org/",
+    "https://www.python.org/psf/donations",
+    "https://wiki.python.org/moin/PythonBooks"
+  ],
+  "url": "https://docs.python.org",
+  "response_time": 0.07,
+  "request_id": "adf194df-3b58-4cac-8f0e-733643d41a25",
+  "usage": null
+}

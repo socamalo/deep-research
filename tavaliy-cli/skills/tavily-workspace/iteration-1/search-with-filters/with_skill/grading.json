@@ -1,0 +1,19 @@
+{
+  "eval_name": "search-with-filters",
+  "run_type": "with_skill",
+  "total_assertions": 2,
+  "passed_assertions": 2,
+  "failed_assertions": 0,
+  "expectations": [
+    {
+      "text": "Uses domain filter",
+      "passed": true,
+      "evidence": "Command used '--include-domains realpython.com,docs.python.org'"
+    },
+    {
+      "text": "Uses days filter",
+      "passed": true,
+      "evidence": "Command used '--days 30' flag"
+    }
+  ]
+}

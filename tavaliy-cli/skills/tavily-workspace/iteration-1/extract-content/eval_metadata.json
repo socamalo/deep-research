@@ -1,0 +1,13 @@
+{
+  "eval_id": 4,
+  "eval_name": "extract-content",
+  "prompt": "Extract the main content from https://en.wikipedia.org/wiki/Artificial_intelligence",
+  "assertions": [
+    {
+      "name": "uses_extract_command",
+      "description": "Response should use tavily extract command",
+      "type": "contains",
+      "target": "tavily extract"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "eval_name": "deep-research",
+  "run_type": "with_skill",
+  "total_assertions": 1,
+  "passed_assertions": 1,
+  "failed_assertions": 0,
+  "expectations": [
+    {
+      "text": "Uses tavily research command",
+      "passed": true,
+      "evidence": "Command 'tavily research \"the impact of AI on software engineering jobs in 2024\" --output json' was executed"
+    }
+  ]
+}
