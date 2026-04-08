@@ -1,0 +1,15 @@
+# API keys
+keys.json
+
+# Docs generated content
+docs/superpower
+
+# Python bytecode
+*.pyc
+__pycache__/
+**/.DS_Store
+tavaliy-cli/skills/tavily-workspace/**/.DS_Store
+tavaliy-cli/docs/superpowers/plans/2026-04-08-tavily-usage-sync.md
+tavaliy-cli/docs/superpowers/specs/2026-04-08-tavily-usage-sync-design.md
+tavaliy-cli/src/**/.DS_Store
+**/.DS_Store
