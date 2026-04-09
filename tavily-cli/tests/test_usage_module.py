@@ -103,6 +103,48 @@ def test_fetch_key_usage_network_error():
         assert "Connection refused" in error
 
 
+def test_tavily_usage_returns_all_keys():
+    """tavily_usage() should return data for all keys, not just active key."""
+    from local_tavily.usage import tavily_usage
+
+    with patch('local_tavily.usage.sync_all_keys_usage') as mock_sync, \
+         patch('local_tavily.usage.get_key_manager') as mock_km:
+
+        mock_sync.return_value = {"updated": ["key1", "key2"], "failed": [], "total": 2}
+
+        # Mock key manager with two keys
+        mock_manager = MagicMock()
+        mock_manager._keys = [
+            {"name": "key1", "key": "key1_val", "usage": 741, "disabled": False},
+            {"name": "key2", "key": "key2_val", "usage": 500, "disabled": False},
+        ]
+        mock_km.return_value = mock_manager
+
+        # Mock a successful API call for account data
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "key": {"usage": 1241},
+            "account": {"current_plan": "Researcher", "plan_limit": 5000}
+        }
+
+        with patch('local_tavily.usage.requests.get', return_value=mock_response):
+            result = tavily_usage()
+            assert result["status"] == "success"
+            assert "keys" in result
+            assert "account" in result
+            assert len(result["keys"]) == 2
+            # Verify keys have correct structure
+            assert result["keys"][0]["name"] == "key1"
+            assert result["keys"][0]["key"]["usage"] == 741
+            assert result["keys"][0]["enabled"] is True
+            assert result["keys"][1]["name"] == "key2"
+            assert result["keys"][1]["key"]["usage"] == 500
+            assert result["keys"][1]["enabled"] is True
+            assert result["account"]["current_plan"] == "Researcher"
+            mock_sync.assert_called_once()
+
+
 def test_tavily_usage_syncs_all_keys():
     """Test tavily_usage calls sync and returns account data."""
     from local_tavily.usage import tavily_usage
@@ -111,6 +153,13 @@ def test_tavily_usage_syncs_all_keys():
          patch('local_tavily.usage.get_key_manager') as mock_km:
 
         mock_sync.return_value = {"updated": ["key1"], "failed": [], "total": 1}
+
+        # Mock key manager with one key
+        mock_manager = MagicMock()
+        mock_manager._keys = [
+            {"name": "key1", "key": "key1_val", "usage": 100, "disabled": False},
+        ]
+        mock_km.return_value = mock_manager
 
         # Mock a successful API call for the active key's account data
         mock_response = MagicMock()

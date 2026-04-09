@@ -96,22 +96,37 @@ def sync_all_keys_usage() -> Dict[str, Any]:
 
 def tavily_usage() -> Dict[str, Any]:
     """
-    Get API usage information for the current API key.
+    Get API usage information for all keys and account data.
 
     First syncs all keys' usage data from Tavily API, then fetches
     account data for the active key.
 
     Returns:
-        Dictionary with usage statistics from the Tavily API.
-        Includes total usage, limits, and breakdown by endpoint type.
-        Always includes sync_result with keys: {updated, failed, total}.
+        Dictionary with:
+        - status: "success" or "error"
+        - keys: list of {"name": str, "key": {usage info}, "enabled": bool}
+        - account: API account-level data
+        - sync_result: {updated, failed, total}
     """
     try:
         # First, sync all keys' usage from the API
         sync_result = sync_all_keys_usage()
         logger.info(f"Synced usage for {sync_result['updated']} keys")
 
-        api_key = get_key_manager().get_key()
+        km = get_key_manager()
+
+        # Build keys_data from synced key manager state
+        keys_data = []
+        for key_data in km._keys:
+            keys_data.append({
+                "name": key_data.get("name", key_data["key"][:8]),
+                "key": {
+                    "usage": key_data.get("usage"),
+                },
+                "enabled": not key_data.get("disabled", False),
+            })
+
+        api_key = km.get_key()
 
         headers = {
             "Authorization": f"Bearer {api_key}",
@@ -126,31 +141,36 @@ def tavily_usage() -> Dict[str, Any]:
                 return {
                     "status": "error",
                     "message": "Invalid JSON response from API",
+                    "keys": keys_data,
                     "sync_result": sync_result,
                 }
             logger.info("Tavily usage information retrieved successfully")
 
             return {
                 "status": "success",
-                "usage": usage_data,
+                "keys": keys_data,
+                "account": usage_data.get("account"),
                 "sync_result": sync_result,
             }
         elif response.status_code == 401:
             return {
                 "status": "error",
                 "message": "Invalid or missing API key",
+                "keys": keys_data,
                 "sync_result": sync_result,
             }
         elif response.status_code == 429:
             return {
                 "status": "error",
                 "message": "Rate limit exceeded. Please try again later.",
+                "keys": keys_data,
                 "sync_result": sync_result,
             }
         else:
             return {
                 "status": "error",
                 "message": f"Error fetching usage: HTTP {response.status_code}",
+                "keys": keys_data,
                 "sync_result": sync_result,
             }
 
@@ -158,6 +178,7 @@ def tavily_usage() -> Dict[str, Any]:
         return {
             "status": "error",
             "message": f"Required package not installed: {str(e)}",
+            "keys": [],
             "sync_result": {"updated": [], "failed": [], "total": 0},
         }
     except Exception as e:
@@ -165,5 +186,6 @@ def tavily_usage() -> Dict[str, Any]:
         return {
             "status": "error",
             "message": f"Error fetching Tavily usage: {str(e)}",
+            "keys": [],
             "sync_result": {"updated": [], "failed": [], "total": 0},
         }
