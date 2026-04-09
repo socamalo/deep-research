@@ -145,6 +145,24 @@ def test_tavily_usage_returns_all_keys():
             mock_sync.assert_called_once()
 
 
+def test_format_usage_table_multi_key():
+    """format_usage_table should show keys as columns."""
+    from local_tavily.formatters import format_usage_table
+
+    results = {
+        "status": "success",
+        "keys": [
+            {"name": "key1", "key": {"usage": 741}, "enabled": True},
+            {"name": "key2", "key": {"usage": 500}, "enabled": True},
+            {"name": "key3", "key": {"usage": 200}, "enabled": False},
+        ],
+        "account": {"plan_usage": 1441, "plan_limit": 3000, "search_usage": 1430, "crawl_usage": 0, "extract_usage": 11, "map_usage": 0, "research_usage": 0},
+        "sync_result": {"updated": 3, "failed": 0, "total": 3}
+    }
+    # Test passes if no exception raised
+    format_usage_table(results)
+
+
 def test_tavily_usage_syncs_all_keys():
     """Test tavily_usage calls sync and returns account data."""
     from local_tavily.usage import tavily_usage

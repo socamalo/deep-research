@@ -500,32 +500,64 @@ def format_research_markdown(results: Dict[str, Any]) -> str:
 
 
 def format_usage_table(results: Dict[str, Any]) -> None:
-    """Format usage results as a rich table."""
+    """Format usage results as a rich table with keys as columns."""
     if results.get("status") != "success":
         console.print(f"[red]Error:[/red] {results.get('message', 'Unknown error')}")
         return
 
-    usage = results.get("usage", {})
+    keys = results.get("keys", [])
+    account = results.get("account", {})
+    sync_result = results.get("sync_result", {})
+    updated = sync_result.get("updated", 0)
+    total = sync_result.get("total", 0)
+    failed = sync_result.get("failed", [])
+
+    # Panel header showing sync status
+    sync_title = f"{updated}/{total} keys synced"
+    if failed:
+        sync_title += f" ({len(failed)} failed)"
 
     console.print(Panel(
         "[bold]API Usage Information[/bold]",
-        title="Usage",
+        title=sync_title,
         border_style="blue"
     ))
 
     table = Table(show_header=True, header_style="bold magenta")
-    table.add_column("Metric", style="cyan")
-    table.add_column("Value", style="green")
+    table.add_column("Metric", style="cyan", no_wrap=True)
 
-    # Flatten usage data
-    for key, value in usage.items():
-        if isinstance(value, dict):
-            for sub_key, sub_value in value.items():
-                table.add_row(f"{key}.{sub_key}", str(sub_value))
+    # One column per key name
+    for k in keys:
+        table.add_column(k["name"], style="green", justify="right")
+
+    # Row: usage (from each key's key.usage)
+    usage_row = ["usage"]
+    for k in keys:
+        usage_row.append(str(k.get("key", {}).get("usage", 0)))
+    table.add_row(*usage_row)
+
+    # Account-level rows
+    for metric in ["search_usage", "crawl_usage", "extract_usage", "map_usage", "research_usage"]:
+        row = [metric]
+        val = account.get(metric, 0)
+        row.append(str(val) if val is not None else "0")
+        table.add_row(*row)
+
+    # Row: enabled status per key (with color)
+    enabled_row = ["enabled"]
+    for k in keys:
+        if k.get("enabled", False):
+            enabled_row.append("[green]true[/green]")
         else:
-            table.add_row(key, str(value))
+            enabled_row.append("[red]false[/red]")
+    table.add_row(*enabled_row)
 
     console.print(table)
+
+    # Print failed keys in red if any
+    if failed:
+        for name, error in failed:
+            console.print(f"[red]Failed to sync {name}: {error}[/red]")
 
 
 def format_usage_json(results: Dict[str, Any]) -> str:
