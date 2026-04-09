@@ -33,29 +33,20 @@ Structured 3-phase research methodology using Tavily CLI for search and **Firecr
 
 ### Tavily CLI
 
-Install from local source (assumes skill repo cloned to `~/.claude/skills/deep-research/`):
-
+**Install:**
 ```bash
-# Check if already installed
-which tavily && tavily --help
-
-# Install from local path
-uv tool install ~/.claude/skills/deep-research/tavaliy-cli
-
-# Update (if needed)
-uv tool uninstall tavily
-uv tool install ~/.claude/skills/deep-research/tavaliy-cli
+uv tool install ~/.claude/skills/deep-research/tavaly-cli
 ```
 
-**Configure API Keys:**
-
+**Setup (first time):**
 ```bash
-cd ~/.claude/skills/deep-research/tavaliy-cli
-cp .env.example .env
-# Edit .env and add your Tavily API key(s)
+tavily init                          # Creates ~/.config/tavily/keys.json
+nano ~/.config/tavily/keys.json      # Add your API keys
 ```
 
-Supports multiple keys for automatic rotation (TAVILY_API_KEY_1, TAVILY_API_KEY_2, etc.)
+**Quick reference:** See `references/tavily-cli.md` for full command documentation.
+
+**Supports:** Multi-key rotation, quota tracking (1000 pts/key), auto-disable.
 
 ### Firecrawl CLI (REQUIRED)
 
@@ -92,9 +83,9 @@ Output: JSON with recommended/excluded URLs and risk assessment
 ### Domain Risk Awareness
 
 **High Risk (frequent 404/invalid URLs):**
-- 中文门户网站：sina.com.cn, sohu.com, 163.com, ifeng.com
-- 中新网地方频道：chinanews.com.cn 地方子站
-- 临时活动页面
+- News portals with short-lived content
+- Sub-sites with unstable URL structures
+- Event/temporary campaign pages
 
 **Strategy for high-risk domains:**
 1. Try direct scrape first (quick fail check)
@@ -223,20 +214,20 @@ firecrawl crawl "https://example.com"
 
 ### Alternative Strategy for Failed URLs
 
-When direct URL fails (especially Chinese news sites):
+When direct URL fails:
 
 ```bash
 # 1. Extract homepage from failed URL
-# https://sina.com.cn/news/article → https://sina.com.cn
+# https://example.com/news/article → https://example.com
 
 # 2. Map the homepage to find valid content
-firecrawl map "https://sina.com.cn"
+firecrawl map "https://example.com"
 
 # 3. Identify relevant pages from map results
 
 # 4. Scrape those specific pages
-firecrawl scrape "https://sina.com.cn/valid-article" markdown \
-  -o ./raw-content/sina-valid-article.md
+firecrawl scrape "https://example.com/valid-article" markdown \
+  -o ./raw-content/example-valid-article.md
 ```
 
 ### What to Save
@@ -574,38 +565,31 @@ Based on autoresearch optimization experiments, use these parameters for best re
 ### Tavily Search
 
 ```bash
-# Basic search (for quick checks)
-tavily search "query"
-
-# Advanced search with results saved (USE THIS - Optimized Parameters)
-# Phase 1: 15 results per query
-# Phase 2: 12 results per query
-# Phase 3: 10 results per query
+# Standard research search (Phase 1: 15 results, Phase 2: 12, Phase 3: 10)
 tavily search --depth advanced --max-results 15 -o json --include-answer true "query" \
   > ./raw-results/search-01-topic.json
 
-# Extract content from specific URL
-tavily extract "https://example.com" -o json
+# Quick check
+tavily search "query"
+
+# Extract URL content
+tavily extract "https://example.com"
 ```
+
+**Full reference:** `references/tavily-cli.md`
 
 ### Firecrawl Scrape (REQUIRED)
 
 ```bash
-# Basic scrape to markdown (always use -o flag)
-firecrawl scrape "https://example.com" markdown \
-  -o ./raw-content/example-com.md
+# Basic scrape
+firecrawl scrape "https://example.com" markdown -o ./raw-content/example-com.md
 
-# Scrape only main content
-firecrawl scrape "https://example.com" markdown \
-  --only-main-content \
-  -o ./raw-content/example-com.md
-
-# For high-risk domains - map first
+# High-risk domains - map first
 firecrawl map "https://example.com"
-
-# Then crawl for content discovery
 firecrawl crawl "https://example.com"
 ```
+
+**See skill: firecrawl-cli for full documentation.**
 
 ## Research Output Structure
 
@@ -654,7 +638,7 @@ research-output/
 - Content you need to quote or reference extensively
 
 **Try alternative strategies for:**
-- High-risk Chinese news sites (direct URL likely 404)
+- High-risk domains (direct URL likely 404)
 - URLs flagged by Source Evaluator
 
 **DON'T scrape:**
@@ -675,12 +659,13 @@ research-output/
 - High Tavily score doesn't guarantee accessible content
 - Simple word counting misses critical quality issues
 
-### Handling Chinese News Sites
+### Handling High-Risk Domains
 
 **Recognize high-risk patterns:**
-- URLs containing: sina, sohu, 163, chinanews, ifeng
-- 地方新闻子站 (如 hebei.chinanews.com)
-- 活动专题页面
+- News portals with short-lived article URLs
+- Sub-sites with unstable URL structures
+- Event/campaign-specific pages
+- Sites with frequent URL changes or content rotation
 
 **Strategy:**
 1. If Source Evaluator flags as high risk → try direct scrape but expect failure

@@ -3,6 +3,7 @@ keys.json
 
 # Docs generated content
 docs/superpower
+tavily-cli/tavily-docs-md/
 
 # Python bytecode
 *.pyc
