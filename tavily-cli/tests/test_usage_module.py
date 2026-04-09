@@ -157,7 +157,7 @@ def test_format_usage_table_multi_key():
             {"name": "key3", "key": {"usage": 200}, "enabled": False},
         ],
         "account": {"plan_usage": 1441, "plan_limit": 3000, "search_usage": 1430, "crawl_usage": 0, "extract_usage": 11, "map_usage": 0, "research_usage": 0},
-        "sync_result": {"updated": 3, "failed": 0, "total": 3}
+        "sync_result": {"updated": ["key1", "key2", "key3"], "failed": [], "total": 3}
     }
     # Test passes if no exception raised
     format_usage_table(results)
