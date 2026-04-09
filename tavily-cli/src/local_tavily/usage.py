@@ -72,6 +72,13 @@ def sync_all_keys_usage() -> Dict[str, Any]:
             api_usage = usage_data.get("usage")
             if api_usage is not None:
                 key_data["usage"] = api_usage
+                # Store per-key detailed metrics
+                key_data["search_usage"] = usage_data.get("search_usage", 0)
+                key_data["crawl_usage"] = usage_data.get("crawl_usage", 0)
+                key_data["extract_usage"] = usage_data.get("extract_usage", 0)
+                key_data["map_usage"] = usage_data.get("map_usage", 0)
+                key_data["research_usage"] = usage_data.get("research_usage", 0)
+                key_data["limit"] = usage_data.get("limit")
                 # Auto-enable if under quota, disable if over quota
                 if api_usage < QUOTA_PER_KEY:
                     key_data["disabled"] = False
@@ -121,7 +128,13 @@ def tavily_usage() -> Dict[str, Any]:
             keys_data.append({
                 "name": key_data.get("name", key_data["key"][:8]),
                 "key": {
-                    "usage": key_data.get("usage"),
+                    "usage": key_data.get("usage", 0),
+                    "search_usage": key_data.get("search_usage", 0),
+                    "crawl_usage": key_data.get("crawl_usage", 0),
+                    "extract_usage": key_data.get("extract_usage", 0),
+                    "map_usage": key_data.get("map_usage", 0),
+                    "research_usage": key_data.get("research_usage", 0),
+                    "limit": key_data.get("limit"),
                 },
                 "enabled": not key_data.get("disabled", False),
             })

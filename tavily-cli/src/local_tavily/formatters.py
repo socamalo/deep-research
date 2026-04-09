@@ -537,11 +537,11 @@ def format_usage_table(results: Dict[str, Any]) -> None:
         usage_row.append(str(k.get("key", {}).get("usage", 0)))
     table.add_row(*usage_row)
 
-    # Account-level rows
+    # Per-key metrics rows
     for metric in ["search_usage", "crawl_usage", "extract_usage", "map_usage", "research_usage"]:
         row = [metric]
-        val = account.get(metric, 0)
         for k in keys:
+            val = k.get("key", {}).get(metric, 0)
             row.append(str(val) if val is not None else "0")
         table.add_row(*row)
 
