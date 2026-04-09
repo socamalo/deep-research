@@ -508,12 +508,13 @@ def format_usage_table(results: Dict[str, Any]) -> None:
     keys = results.get("keys", [])
     account = results.get("account", {})
     sync_result = results.get("sync_result", {})
-    updated = sync_result.get("updated", 0)
+    updated_list = sync_result.get("updated", [])
     total = sync_result.get("total", 0)
     failed = sync_result.get("failed", [])
+    updated_count = len(updated_list)
 
     # Panel header showing sync status
-    sync_title = f"{updated}/{total} keys synced"
+    sync_title = f"{updated_count}/{total} keys synced"
     if failed:
         sync_title += f" ({len(failed)} failed)"
 
@@ -540,7 +541,8 @@ def format_usage_table(results: Dict[str, Any]) -> None:
     for metric in ["search_usage", "crawl_usage", "extract_usage", "map_usage", "research_usage"]:
         row = [metric]
         val = account.get(metric, 0)
-        row.append(str(val) if val is not None else "0")
+        for k in keys:
+            row.append(str(val) if val is not None else "0")
         table.add_row(*row)
 
     # Row: enabled status per key (with color)
