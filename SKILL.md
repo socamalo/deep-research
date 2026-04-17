@@ -593,8 +593,9 @@ firecrawl crawl "https://example.com"
 
 ## Research Output Structure
 
+Each research session creates a dedicated folder named after the research topic:
 ```
-research-output/
+research-output-{topic}/
 ├── 01-initial-discovery/
 │   ├── raw-results/           # Tavily search JSON + Markdown
 │   │   ├── search-01-guzheng-history.json
@@ -626,6 +627,10 @@ research-output/
     ├── research-log.md
     └── iteration-notes.md
 ```
+
+**Topic slug generation:** Use lowercase, replace spaces with hyphens, max 50 chars. Example: `research-output-ai-agents-safety/`
+
+This ensures each research session is isolated, preventing file mixing across multiple deep research runs.
 
 ## Judgment Guidelines
 
