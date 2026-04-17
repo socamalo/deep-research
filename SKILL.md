@@ -560,6 +560,15 @@ Based on autoresearch optimization experiments, use these parameters for best re
 
 **Output:** `04-final-report/comprehensive-report.md`
 
+**Report Footer:** Each report must end with the generation timestamp and research method description:
+
+```markdown
+**Report generated**: YYYY-MM-DD
+**Research Method**: Deep internet research with three-phase iterative searching, quality validation, and human review
+```
+
+The Research Method line establishes credibility—it tells readers the research is systematic, validated, and human-reviewed.
+
 ## Quick Reference: CLI Commands
 
 ### Tavily Search
